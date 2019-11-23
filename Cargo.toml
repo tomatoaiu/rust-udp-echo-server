@@ -1,0 +1,5 @@
+[package]
+name = "rust-udp-echo-server"
+version = "0.1.0"
+authors = ["Shunsuke Toba"]
+edition = "2018"

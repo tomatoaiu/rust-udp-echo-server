@@ -1,0 +1,38 @@
+version: "3.6"
+ 
+services:
+  server1:
+    image: rust
+    container_name: server1
+    tty: true
+    volumes:
+      - ./:/src
+    working_dir: /src
+    ports:
+      - "34254:34254/udp"
+    networks:
+      app_net:
+        ipv4_address: 172.16.239.10
+    command: cargo run 34254 "172.16.239.11:34255" --release
+
+  server2:
+    image: rust
+    container_name: server2
+    tty: true
+    volumes:
+      - ./:/src
+    working_dir: /src
+    ports:
+      - "34255:34255/udp"
+    networks:
+      app_net:
+        ipv4_address: 172.16.239.11
+    command: cargo run 34255 "172.19.145.104:34256" --release
+
+networks:
+  app_net:
+    name: upd_echo_net
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.239.0/24"
